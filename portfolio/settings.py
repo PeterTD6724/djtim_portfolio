@@ -106,7 +106,7 @@ DATABASES = {
 
 DATABASES['default'] = dj_database_url.parse(env('DATABASE_URL'))
 
-
+CSRF_TRUSTED_ORIGINS = ['https://dashboard.render.com/d/dpg-cr6e0ct6l47c73dcm0g0-a']
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
