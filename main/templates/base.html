@@ -1,0 +1,42 @@
+{% load compress static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Portfolio - Home{% endblock title %}</title>
+
+    {% compress css %}
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    <link rel="stylesheet" href="{% static 'css/project.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/home.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/contact.css' %}" />
+    {% endcompress %}
+
+    {% block extrahead %}
+    {% endblock extrahead %}
+</head>
+
+<body>
+    <main>
+        <header>
+            <ul class="nav-menu">
+                <li><a href="/home">Home</a></li>
+                <li><a href="/contact">Studio</a></li>
+                <li><a href="/contact">Studio Deluxe</a></li>
+                <li><a href="/contact">Apartments</a></li>
+            </ul>
+        </header>
+    </main>
+</body>
+{% block content %}
+
+{% endblock %}
+{% compress js %}
+<script src="{% static 'js/home.js' %}"></script>
+<script src="{% static 'js/project.js' %}"></script>
+{% endcompress %}
+
+</html>
