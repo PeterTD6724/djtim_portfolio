@@ -8,6 +8,7 @@ import environ
 
 
 
+
 env = Env()
 ENVIRONMENT = env('ENVIRONMENT', default='producton')
 
@@ -181,7 +182,7 @@ ALLOW_ROBOTS=False
 # HTTPS settings
 SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_REDIRECT = True
-SECURE_SSL_REDIRECT = True   # Put True for production
+SECURE_SSL_REDIRECT = False   # Put True for production
 CSRF_COOKIE_SECURE = True
 
 # HSTS settings 
