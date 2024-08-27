@@ -103,7 +103,7 @@ DATABASES = {
     }
 }
 
-POSTGRES_LOCALLY = True
+POSTGRES_LOCALLY = True  #Put as True for Postgres database.
 if ENVIRONMENT == 'production' or POSTGRES_LOCALLY == True:
     DATABASES['default'] = dj_database_url.parse(env('DATABASE_URL'))
 
@@ -165,3 +165,17 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 ACCOUNT_USERNAME_BLACKLIST = [ 'thepdt' ]
 
 ALLOW_ROBOTS=False
+
+# HTTPS settings
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_REDIRECT = True
+SECURE_SSL_REDIRECT = True  # Put true for production
+CSRF_COOKIE_SECURE = True
+
+# HSTS settings 
+SECURE_HSTS_SECONDS = 31536000 # 1Year
+SECURE_HSTS_PRELOAD = True
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+
+SECURE_BROWSER_XSS_FILTER = True
+SECURE_CONTENT_TYPE_NOSNIFF = True
