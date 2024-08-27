@@ -50,6 +50,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'cloudinary_storage',
+    'cloudinary',
     'compressor',
 ]
 
@@ -103,7 +105,7 @@ DATABASES = {
     }
 }
 
-POSTGRES_LOCALLY = True  #Put as True for Postgres database.
+POSTGRES_LOCALLY = False   #Put as True for Postgres database.( False )
 if ENVIRONMENT == 'production' or POSTGRES_LOCALLY == True:
     DATABASES['default'] = dj_database_url.parse(env('DATABASE_URL'))
 
@@ -160,7 +162,17 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 MEDIA_URL = '/media/'
 
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+if ENVIRONMENT == 'production' or POSTGRES_LOCALLY == True:
+    DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.RawMediaCloudinaryStorage'
+else:
+    MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': env('CLOUD_NAME'),
+    'API_KEY': env('CLOUD_API_KEY'),
+    'API_SECRET': env('CLOUD_API_SECRET'),
+}
 
 ACCOUNT_USERNAME_BLACKLIST = [ 'thepdt' ]
 
@@ -169,7 +181,7 @@ ALLOW_ROBOTS=False
 # HTTPS settings
 SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_REDIRECT = True
-SECURE_SSL_REDIRECT = True  # Put true for production
+SECURE_SSL_REDIRECT = False  # Put True for production
 CSRF_COOKIE_SECURE = True
 
 # HSTS settings 
