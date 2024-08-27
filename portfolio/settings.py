@@ -9,9 +9,6 @@ import cloudinary
 import cloudinary.api
 import cloudinary.uploader
 
-
-
-
 env = Env()
 ENVIRONMENT = env('ENVIRONMENT', default='producton')
 
@@ -41,12 +38,18 @@ INTERNAL_IPS = [
     'localhost:8003'
 ]
 
-cloudinary.config(
-    cloud_name="da9mmlfmi",
-    api_key="827811635615798",
-    api_secret="CLOUD_API_SECRET",
-    secure=True,
-)
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': env('CLOUD_NAME'),
+    'API_KEY': env('CLOUD_API_KEY'),
+    'API_SECRET': env('CLOUD_API_SECRET'),
+}
+
+# cloudinary.config(
+#     cloud_name="CLOUD_NAME",
+#     api_key="CLOUD_API_KEY",
+#     api_secret="CLOUD_API_SECRET",
+#     secure=True,
+# )
 
 # Application definition
 
@@ -177,11 +180,7 @@ if ENVIRONMENT == 'production' or POSTGRES_LOCALLY == True:
 else:
     MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-CLOUDINARY_STORAGE = {
-    'CLOUD_NAME': env('CLOUD_NAME'),
-    'API_KEY': env('CLOUD_API_KEY'),
-    'API_SECRET': env('CLOUD_API_SECRET'),
-}
+
 
 ACCOUNT_USERNAME_BLACKLIST = [ 'thepdt' ]
 
