@@ -105,7 +105,7 @@ DATABASES = {
     }
 }
 
-POSTGRES_LOCALLY = False   #Put as True for Postgres database.( False )
+POSTGRES_LOCALLY = True   #Put as True for Postgres database.( False )
 if ENVIRONMENT == 'production' or POSTGRES_LOCALLY == True:
     DATABASES['default'] = dj_database_url.parse(env('DATABASE_URL'))
 
@@ -181,7 +181,7 @@ ALLOW_ROBOTS=False
 # HTTPS settings
 SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_REDIRECT = True
-SECURE_SSL_REDIRECT = False  # Put True for production
+SECURE_SSL_REDIRECT = True   # Put True for production
 CSRF_COOKIE_SECURE = True
 
 # HSTS settings 
