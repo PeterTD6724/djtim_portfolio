@@ -5,6 +5,9 @@ from environ import Env
 import os
 import dj_database_url
 import environ
+import cloudinary
+import cloudinary.api
+import cloudinary.uploader
 
 
 
@@ -38,7 +41,12 @@ INTERNAL_IPS = [
     'localhost:8003'
 ]
 
-
+cloudinary.config(
+    cloud_name="da9mmlfmi",
+    api_key="827811635615798",
+    api_secret="CLOUD_API_SECRET",
+    secure=True,
+)
 
 # Application definition
 
