@@ -27,7 +27,7 @@ Project Page
         <div class="carousel-images">
             {% for image in project.images.all %}
             <div class="carousel-item">
-                <img class="carousel_image" src="{{ image.image.url }}" alt="Project image"
+                <img class="carousel_image" src="{{ image.image.url }}" alt="{{ image.project.title }} Image"
                     title="{{ project.title }}" />
             </div>
             {% endfor %}
