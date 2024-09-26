@@ -1,5 +1,16 @@
 from django.db import models
+from cloudinary.uploader import upload
 
+import cloudinary
+import cloudinary.uploader
+from cloudinary.utils import cloudinary_url
+
+cloudinary.config( 
+    cloud_name = "da9mmlfmi", 
+    api_key = "827811635615798", 
+    api_secret = "YBDgIcPfN9xEmRCf65LI3YYZ3nw",
+    secure=True
+)
 
 class Tag(models.Model):
     name = models.CharField(max_length=100, unique=True)
