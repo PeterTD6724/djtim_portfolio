@@ -17,7 +17,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 env = Env()
 Env.read_env()
-ENVIRONMENT = env('ENVIRONMENT', default='producton')
+ENVIRONMENT = env('ENVIRONMENT', default='production')
 
 
 # env = environ.Env()
@@ -34,7 +34,7 @@ if ENVIRONMENT == 'development':
 else:
     DEBUG = False
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'https://dashboard.render.com/', 'https://console.cloudinary.com/']
 
 INTERNAL_IPS = [
     '127.0.0.1',
@@ -189,7 +189,7 @@ ACCOUNT_USERNAME_BLACKLIST = [ 'admin', 'thepdt' ]
 # HTTPS settings
 SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_REDIRECT = True
-SECURE_SSL_REDIRECT = False   # Put True for production
+SECURE_SSL_REDIRECT = True   # Put True for production
 CSRF_COOKIE_SECURE = True
 
 # HSTS settings 
