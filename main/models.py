@@ -4,11 +4,18 @@ from cloudinary.uploader import upload
 import cloudinary
 import cloudinary.uploader
 from cloudinary.utils import cloudinary_url
+from cloudinary.models import CloudinaryField
+from environ import Env
+import os
+
+env = Env()
+Env.read_env()
+ENVIRONMENT = env('ENVIRONMENT', default='producton')
 
 cloudinary.config( 
-    cloud_name = "da9mmlfmi", 
-    api_key = "827811635615798", 
-    api_secret = "YBDgIcPfN9xEmRCf65LI3YYZ3nw",
+    cloud_name = env('CLOUD_NAME'), 
+    api_key = env('CLOUD_API_KEY'), 
+    api_secret = env('CLOUD_API_SECRET'),
     secure=True
 )
 
@@ -34,7 +41,7 @@ class ProjectImage(models.Model):
     project = models.ForeignKey(
         Project, related_name="images", on_delete=models.CASCADE
     )
-    image = models.FileField(upload_to="project_images/")
+    image = CloudinaryField('image', folder='project_images')  # Use CloudinaryField instead of FileField
 
     def __str__(self):
         return f"{self.project.title} Image"
