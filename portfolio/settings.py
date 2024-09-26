@@ -1,19 +1,12 @@
 
-
 from pathlib import Path
 from environ import Env
+import environ
 import os
 import dj_database_url
-import environ
 import cloudinary
 import cloudinary.api
 import cloudinary.uploader
-
-env = Env()
-ENVIRONMENT = env('ENVIRONMENT', default='producton')
-
-env = environ.Env()
-environ.Env.read_env() 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -22,10 +15,20 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
+env = Env()
+Env.read_env()
+ENVIRONMENT = env('ENVIRONMENT', default='producton')
+
+
+# env = environ.Env()
+# environ.Env.read_env() 
+
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = env('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
+
+
 if ENVIRONMENT == 'development':
     DEBUG = True
 else:
@@ -38,20 +41,7 @@ INTERNAL_IPS = [
     'localhost:8003'
 ]
 
-CLOUDINARY_STORAGE = {
-    'CLOUD_NAME': env('CLOUD_NAME'),
-    'API_KEY': env('CLOUD_API_KEY'),
-    'API_SECRET': env('CLOUD_API_SECRET'),
-}
-
-# cloudinary.config(
-#     cloud_name="CLOUD_NAME",
-#     api_key="CLOUD_API_KEY",
-#     api_secret="CLOUD_API_SECRET",
-#     secure=True,
-# )
-
-# Application definition
+CSRF_TRUSTED_ORIGINS = [ 'https://*.onrender.com' ]
 
 INSTALLED_APPS = [
     'main.apps.MainConfig',
@@ -65,6 +55,7 @@ INSTALLED_APPS = [
     'cloudinary_storage',
     'cloudinary',
     'compressor',
+    
 ]
 
 STATICFILES_FINDERS = (
@@ -77,7 +68,7 @@ STATICFILES_FINDERS = (
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -117,11 +108,19 @@ DATABASES = {
     }
 }
 
-POSTGRES_LOCALLY = True   #Put as True for Postgres database.( False )
-if ENVIRONMENT == 'production' or POSTGRES_LOCALLY == True:
+POSTGRES_LOCCALLY = True
+if ENVIRONMENT == 'production' or POSTGRES_LOCCALLY == True:
     DATABASES['default'] = dj_database_url.parse(env('DATABASE_URL'))
 
-CSRF_TRUSTED_ORIGINS = ['https://dashboard.render.com/d/dpg-cr6e0ct6l47c73dcm0g0-a']
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgesql',
+#         'NAME': 'postgres',
+#         'USER': 'postgres',
+#         'HOST': 'db',
+#         'PORT': 5432
+#     }
+# }
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
@@ -153,38 +152,39 @@ USE_I18N = True
 
 USE_TZ = True
 
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
 STATIC_URL = 'static/'
 # STATICFILES_DIR = [BASE_DIR / 'static']
-STATICFILES_DIR = [os.path.join(BASE_DIR / 'static')]
+STATICFILES_DIRS = [os.path.join(BASE_DIR / 'static')]
 
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
-COMPRESS_ENABLED = True
-
-# Default primary key field type
-# https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
-
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
-DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 MEDIA_URL = '/media/'
 
-
-if ENVIRONMENT == 'production' or POSTGRES_LOCALLY == True:
+if ENVIRONMENT == 'production' or POSTGRES_LOCCALLY == True:
     DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+    MEDIA_URL = '/media/'
 else:
+    # Local media storage settings
+    MEDIA_URL = '/media/'
     MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
+print(f"ENVIRONMENT: {ENVIRONMENT}")
+print(f"POSTGRES_LOCCALLY: {POSTGRES_LOCCALLY}") 
 
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': env('CLOUD_NAME'),
+    'API_KEY': env('CLOUD_API_KEY'),
+    'API_SECRET': env('CLOUD_API_SECRET'),
+}
 
-ACCOUNT_USERNAME_BLACKLIST = [ 'thepdt' ]
-
-ALLOW_ROBOTS=False
+COMPRESS_ENABLED = True
+ACCOUNT_USERNAME_BLACKLIST = [ 'admin', 'thepdt' ]
 
 # HTTPS settings
 SESSION_COOKIE_SECURE = True
