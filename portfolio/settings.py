@@ -102,8 +102,12 @@ WSGI_APPLICATION = 'portfolio.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'mydatabase',
+        'USER': 'mydatabaseuser',
+        'PASSWORD': 'mypassword',
+        'HOST': 'db',
+        'PORT': '5432',
     }
 }
 
@@ -111,15 +115,7 @@ POSTGRES_LOCCALLY = True
 if ENVIRONMENT == 'production' or POSTGRES_LOCCALLY == True:
     DATABASES['default'] = dj_database_url.parse(env('DATABASE_URL'))
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgesql',
-#         'NAME': 'postgres',
-#         'USER': 'postgres',
-#         'HOST': 'db',
-#         'PORT': 5432
-#     }
-# }
+
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
