@@ -35,7 +35,7 @@ if ENVIRONMENT == 'development':
 else:
     DEBUG = False
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'https://dashboard.render.com/', 'https://console.cloudinary.com/']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'www.dashboard.render.com', 'www.console.cloudinary.com']
 
 INTERNAL_IPS = [
     '127.0.0.1',
