@@ -8,6 +8,7 @@ import cloudinary
 import cloudinary.api
 import cloudinary.uploader
 
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -17,7 +18,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 env = Env()
 Env.read_env()
-ENVIRONMENT = env('ENVIRONMENT', default='production')
+
 
 
 # env = environ.Env()
@@ -28,13 +29,13 @@ SECRET_KEY = env('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 
-
+ENVIRONMENT = env('ENVIRONMENT', default='production')
 if ENVIRONMENT == 'development':
     DEBUG = True
 else:
     DEBUG = False
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'https://dashboard.render.com/', 'https://console.cloudinary.com/']
 
 INTERNAL_IPS = [
     '127.0.0.1',
@@ -108,7 +109,7 @@ DATABASES = {
     }
 }
 
-POSTGRES_LOCCALLY = True
+POSTGRES_LOCCALLY = False
 if ENVIRONMENT == 'production' or POSTGRES_LOCCALLY == True:
     DATABASES['default'] = dj_database_url.parse(env('DATABASE_URL'))
 
@@ -167,7 +168,8 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 MEDIA_URL = '/media/'
 
 if ENVIRONMENT == 'production' or POSTGRES_LOCCALLY == True:
-    DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+    # DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+    DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.RawMediaCloudinaryStorage'
     MEDIA_URL = '/media/'
 else:
     # Local media storage settings
@@ -189,7 +191,7 @@ ACCOUNT_USERNAME_BLACKLIST = [ 'admin', 'thepdt' ]
 # HTTPS settings
 SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_REDIRECT = True
-SECURE_SSL_REDIRECT = True   # Put True for production
+SECURE_SSL_REDIRECT = False   # Put True for production
 CSRF_COOKIE_SECURE = True
 
 # HSTS settings 
@@ -199,3 +201,4 @@ SECURE_HSTS_INCLUDE_SUBDOMAINS = True
 
 SECURE_BROWSER_XSS_FILTER = True
 SECURE_CONTENT_TYPE_NOSNIFF = True
+
