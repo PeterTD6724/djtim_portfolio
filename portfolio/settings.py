@@ -35,7 +35,7 @@ if ENVIRONMENT == 'development':
 else:
     DEBUG = False
 
-ALLOWED_HOSTS = [env('ALLOWED_HOSTS')]
+ALLOWED_HOSTS = [env('RENDER_EXTERNAL_HOSTNAME')]
 
 INTERNAL_IPS = [
     '127.0.0.1',
