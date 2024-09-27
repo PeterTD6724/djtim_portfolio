@@ -1,12 +1,14 @@
 from django.db import models
 from cloudinary.uploader import upload
-
+from django.conf import settings 
 import cloudinary
 import cloudinary.uploader
 from cloudinary.utils import cloudinary_url
 from cloudinary.models import CloudinaryField
 from environ import Env
 import os
+from cloudinary_storage.storage import RawMediaCloudinaryStorage
+from cloudinary_storage.storage import MediaCloudinaryStorage
 
 env = Env()
 Env.read_env()
@@ -25,7 +27,6 @@ class Tag(models.Model):
     def __str__(self):
         return self.name
 
-
 class Project(models.Model):
     title = models.CharField(max_length=200)
     description = models.TextField(max_length=2000)
@@ -36,12 +37,20 @@ class Project(models.Model):
     def __str__(self):
         return self.title
 
-
 class ProjectImage(models.Model):
     project = models.ForeignKey(
-        Project, related_name="images", on_delete=models.CASCADE
+        'Project', related_name="images", on_delete=models.CASCADE
     )
-    image = CloudinaryField('image', folder='project_images')  # Use CloudinaryField instead of FileField
+
+    if settings.POSTGRES_LOCCALLY:  # True for production
+        image = models.FileField(
+            verbose_name='image',
+            upload_to='project_images',
+            blank=True,
+            storage=MediaCloudinaryStorage()  # Cloudinary storage for production
+        )
+    else: 
+        image = models.FileField(upload_to="project_images/")  # Regular file storage
 
     def __str__(self):
         return f"{self.project.title} Image"
