@@ -42,8 +42,6 @@ INTERNAL_IPS = [
     'localhost:8003'
 ]
 
-CSRF_TRUSTED_ORIGINS = [ 'https://*.onrender.com' ]
-
 INSTALLED_APPS = [
     'main.apps.MainConfig',
     'django.contrib.admin',
@@ -187,6 +185,11 @@ CLOUDINARY_STORAGE = {
 
 COMPRESS_ENABLED = True
 ACCOUNT_USERNAME_BLACKLIST = [ 'admin', 'thepdt' ]
+
+CSRF_TRUSTED_ORIGINS = [
+    'https://*.onrender.com',  # Allow all subdomains of onrender.com
+    'https://console.cloudinary.com',  # Allow Cloudinary console
+]
 
 # HTTPS settings
 SESSION_COOKIE_SECURE = True
