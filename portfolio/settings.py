@@ -35,7 +35,7 @@ if ENVIRONMENT == 'development':
 else:
     DEBUG = False
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = [env('ALLOWED_HOSTS')]
 
 INTERNAL_IPS = [
     '127.0.0.1',
@@ -191,7 +191,7 @@ ACCOUNT_USERNAME_BLACKLIST = [ 'admin', 'thepdt' ]
 # HTTPS settings
 SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_REDIRECT = True
-SECURE_SSL_REDIRECT = False   # Put True for production
+SECURE_SSL_REDIRECT = True   # Put True for production
 CSRF_COOKIE_SECURE = True
 
 # HSTS settings 
