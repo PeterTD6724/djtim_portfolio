@@ -39,18 +39,9 @@ class Project(models.Model):
 
 class ProjectImage(models.Model):
     project = models.ForeignKey(
-        'Project', related_name="images", on_delete=models.CASCADE
+        Project, related_name="images", on_delete=models.CASCADE
     )
-
-    if settings.POSTGRES_LOCCALLY:  # True for production
-        image = models.FileField(
-            verbose_name='image',
-            upload_to='project_images',
-            blank=True,
-            storage=MediaCloudinaryStorage()  # Cloudinary storage for production
-        )
-    else: 
-        image = models.FileField(upload_to="project_images/")  # Regular file storage
+    image = models.ImageField(verbose_name='image', upload_to='project_images', blank=True, storage=MediaCloudinaryStorage())
 
     def __str__(self):
         return f"{self.project.title} Image"
