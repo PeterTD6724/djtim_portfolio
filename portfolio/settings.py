@@ -25,7 +25,7 @@ Env.read_env()
 # environ.Env.read_env() 
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = env('SECRET_KEY')
+SECRET_KEY = env('SECRET_KEY', default='your secret key')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 
@@ -35,7 +35,11 @@ if ENVIRONMENT == 'development':
 else:
     DEBUG = False
 
-ALLOWED_HOSTS = [env('RENDER_EXTERNAL_HOSTNAME')]
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', env('RENDER_EXTERNAL_HOSTNAME')]
+
+RENDER_EXTERNAL_HOSTNAME = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
+if RENDER_EXTERNAL_HOSTNAME:
+    ALLOWED_HOSTS.append(RENDER_EXTERNAL_HOSTNAME)
 
 INTERNAL_IPS = [
     '127.0.0.1',
@@ -54,6 +58,7 @@ INSTALLED_APPS = [
     'cloudinary_storage',
     'cloudinary',
     'compressor',
+    'corsheaders',
     
 ]
 
@@ -69,6 +74,7 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     "whitenoise.middleware.WhiteNoiseMiddleware",
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -100,16 +106,36 @@ WSGI_APPLICATION = 'portfolio.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
+
+# POSTGRESQL
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'mydatabase',
-        'USER': 'mydatabaseuser',
-        'PASSWORD': 'mypassword',
-        'HOST': 'db',
-        'PORT': '5432',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'portfolio',
+        'USER': 'postgres',
+        'PASSWORD': 'Connectpstgrsqlpdt@6724',
+        'HOST': 'localhost',
+        'PORT': 5432,
     }
 }
+
+#AMAZON RDS
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'NAME': 'tportfolio',
+#         'USER': 'portfoliopsgr',
+#         'PASSWORD': 'Connectamzpsgr6724',
+#         'HOST': 'localhost',
+#         'PORT': 5432,
+#     }
+# }
 
 POSTGRES_LOCCALLY = True
 if ENVIRONMENT == 'production' or POSTGRES_LOCCALLY == True:
@@ -182,10 +208,18 @@ CLOUDINARY_STORAGE = {
 COMPRESS_ENABLED = True
 ACCOUNT_USERNAME_BLACKLIST = [ 'admin', 'thepdt' ]
 
+
+
 CSRF_TRUSTED_ORIGINS = [
     'https://*.onrender.com',  # Allow all subdomains of onrender.com
     'https://console.cloudinary.com',  # Allow Cloudinary console
 ]
+
+CORS_ALLOWED_ORIGINS = [
+     'https://*.onrender.com',  
+    'https://console.cloudinary.com', 
+]
+
 
 # HTTPS settings
 SESSION_COOKIE_SECURE = True
@@ -201,3 +235,11 @@ SECURE_HSTS_INCLUDE_SUBDOMAINS = True
 SECURE_BROWSER_XSS_FILTER = True
 SECURE_CONTENT_TYPE_NOSNIFF = True
 
+# if ENVIRONMENT == 'production':
+#     SECURE_SSL_REDIRECT = True
+#     SESSION_COOKIE_SECURE = True
+#     CSRF_COOKIE_SECURE = True
+# else:
+#     SECURE_SSL_REDIRECT = False
+#     SESSION_COOKIE_SECURE = False
+#     CSRF_COOKIE_SECURE = False
