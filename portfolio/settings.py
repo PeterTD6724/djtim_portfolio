@@ -189,7 +189,7 @@ MEDIA_URL = '/media/'
 
 if ENVIRONMENT == 'production' or POSTGRES_LOCCALLY == True:
     # DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
-    DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.RawMediaCloudinaryStorage'
+    DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
     MEDIA_URL = '/media/'
 else:
     # Local media storage settings
