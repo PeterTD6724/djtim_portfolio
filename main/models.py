@@ -41,7 +41,6 @@ class ProjectImage(models.Model):
     project = models.ForeignKey(
         Project, related_name="images", on_delete=models.CASCADE
     )
-    image = models.ImageField(verbose_name='image', upload_to='project_images', blank=True, storage=MediaCloudinaryStorage())
-
-    def __str__(self):
-        return f"{self.project.title} Image"
+    image = CloudinaryField('image', folder='project_images') 
+def __str__(self):
+    return f"{self.project.title} Image"
